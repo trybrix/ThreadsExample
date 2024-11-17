@@ -60,6 +60,18 @@ class TimerViewModel : ViewModel() {
         }
     }
 
+    fun resetTimer() {
+        if (isRunning) {
+            timerJob?.cancel()
+        }
+        isRunning = false
+        remainingMillis = 0
+        totalMillis = 0
+        selectedHour = 0
+        selectedMinute = 0
+        selectedSecond = 0
+    }
+
     fun cancelTimer() {
         if (isRunning) {
             timerJob?.cancel()

@@ -48,8 +48,22 @@ fun TimerScreen(
             contentAlignment = Alignment.Center
         ) {
             if (timerViewModel.isRunning) {
-
+                val progress by remember(
+                    timerViewModel.remainingMillis,
+                    timerViewModel.totalMillis
+                ) {
+                    mutableFloatStateOf(
+                        timerViewModel.remainingMillis.toFloat() / timerViewModel.totalMillis
+                    )
+                }
+                CircularProgressIndicator(
+                    progress = { progress },
+                    modifier = Modifier.size(800.dp),
+                    color = Color.Magenta,
+                    strokeWidth = 5.dp,
+                )
             }
+
             Text(
                 text = timerText(timerViewModel.remainingMillis),
                 fontSize = 60.sp,
@@ -78,6 +92,14 @@ fun TimerScreen(
             ) {
                 Text("Start")
             }
+        }
+        Button(
+            onClick = {
+                timerViewModel.resetTimer() // Resets
+            },
+            modifier = Modifier.padding(top = 20.dp)
+        ) {
+            Text("Reset")
         }
     }
 }
