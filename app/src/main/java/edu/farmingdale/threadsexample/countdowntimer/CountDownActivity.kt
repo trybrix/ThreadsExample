@@ -23,7 +23,9 @@ import edu.farmingdale.threadsexample.ui.theme.ThreadsExampleTheme
 
 class CountDownActivity : ComponentActivity() {
 
-    private val timerViewModel = TimerViewModel()
+    private val timerViewModel = TimerViewModel(
+        context = this
+    )
 
     private val permissionRequestLauncher =
         registerForActivityResult(ActivityResultContracts.RequestPermission()) { isGranted ->

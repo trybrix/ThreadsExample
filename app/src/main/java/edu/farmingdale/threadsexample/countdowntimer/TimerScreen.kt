@@ -40,6 +40,9 @@ fun TimerScreen(
     modifier: Modifier = Modifier,
     timerViewModel: TimerViewModel = viewModel()
 ) {
+    // ToDo 8 - DONE
+    val isLastTenSeconds = timerViewModel.remainingMillis <= 10_000
+
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Box(
             modifier = modifier
@@ -66,7 +69,13 @@ fun TimerScreen(
 
             Text(
                 text = timerText(timerViewModel.remainingMillis),
-                fontSize = 60.sp,
+                fontSize = 50.sp,
+                // ToDo 8 - DONE
+                color = when {
+                    timerViewModel.remainingMillis == 0L -> Color.Black
+                    isLastTenSeconds -> Color.Red
+                    else -> Color.Black
+                }
             )
         }
         TimePicker(
@@ -103,8 +112,6 @@ fun TimerScreen(
         }
     }
 }
-
-
 
 fun timerText(timeInMillis: Long): String {
     val duration: Duration = timeInMillis.milliseconds

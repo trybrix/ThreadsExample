@@ -56,10 +56,31 @@ import java.util.Locale
 //    }
 //}
 
+// Time comp is O(2^n) = no good
+// Okay for small calculations
 suspend fun fibonacciSuspend(n: Long): Long {
     delay(10)
     return if (n <= 1) n else fibonacciSuspend(n - 1) + fibonacciSuspend(n - 2)
 }
+
+
+// Faster time comp and space comp O(n)
+// Iterative method
+// Bottom-up dynamic prog
+
+//suspend fun fibonacciSuspend(n: Long): Long {
+//    delay(10)
+//    if (n <= 1) return n
+//    var a = 0L
+//    var b = 1L
+//    var c = 0L
+//    for (i in 2..n) {
+//        c = a + b
+//        a = b
+//        b = c
+//    }
+//    return c
+//}
 
 @Preview(showBackground = true)
 @Composable
@@ -67,7 +88,7 @@ fun FibonacciDemoWithCoroutine(
     modifier: Modifier = Modifier
 ) {
     var answer by remember { mutableStateOf("") }
-    var textInput by remember { mutableStateOf("40") }
+    var textInput by remember { mutableStateOf("") }
     var fibonnaciJob: Job by remember { mutableStateOf(Job()) }
     val coroutineScope = rememberCoroutineScope()
 
@@ -88,7 +109,7 @@ fun FibonacciDemoWithCoroutine(
             Button(modifier = Modifier.padding(1.dp),
             onClick = {
                 fibonnaciJob = coroutineScope.launch(Dispatchers.Default) {
-                    val fibNumber = fibonacciSuspend(10)
+                    val fibNumber = fibonacciSuspend(textInput.toLong())
                     answer = NumberFormat.getNumberInstance(Locale.US).format((fibNumber))
                 }
             }
